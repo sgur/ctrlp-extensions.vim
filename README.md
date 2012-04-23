@@ -1,4 +1,4 @@
-ctrlp-plugins.vim
+ctrlp-extensions.vim
 =================
 
-Plugins for ctrlp.vim
+Extensions for ctrlp.vim
