@@ -45,8 +45,8 @@ else
 endif
 
 
-function! s:store()
-  let g:YANKRING = s:yankring[: 30]
+function! s:store(list)
+  let g:YANKRING = a:list
 endfunction
 
 
@@ -80,7 +80,7 @@ function! yankring#collect()
           \ : s:yankring[: yankring_limit-1]
   endif
 
-  call s:store()
+  call s:store(s:yankring[: 30])
 
 endfunction
 
@@ -88,6 +88,17 @@ endfunction
 function! yankring#list()
   return copy(s:yankring)
 endfunction
+
+
+function! yankring#scope()  "{{{
+  return s:
+endfunction "}}}
+
+
+function! yankring#sid()  "{{{
+  return maparg('<SID>', 'n')
+endfunction "}}}
+nnoremap <SID>  <SID>
 
 
 let &cpo = s:save_cpo
