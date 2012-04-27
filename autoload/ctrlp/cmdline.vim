@@ -71,10 +71,4 @@ function! ctrlp#cmdline#id()
 endfunction
 
 
-" Create a command to directly call the new search type.
-"
-" Put something like this in vimrc or plugin/cmdline.vim
-command! CtrlPCmdline call ctrlp#init(ctrlp#cmdline#id())
-
-
 " vim:fen:fdl=0:ts=2:sw=2:sts=2

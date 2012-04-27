@@ -83,9 +83,5 @@ function! ctrlp#menu#id()
   return s:id
 endfunction
 
-" Create a command to directly call the new search type.
-"
-" Put something like this in vimrc or plugin/ctrlp.vim
-command! CtrlPMenu call ctrlp#init(ctrlp#menu#id())
 
 " vim:fen:fdl=0:ts=2:sw=2:sts=2

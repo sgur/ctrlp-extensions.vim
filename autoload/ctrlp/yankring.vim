@@ -72,9 +72,4 @@ function! ctrlp#yankring#id()
 endfunction
 
 
-" Create a command to directly call the new search type.
-"
-" Put something like this in vimrc or plugin/yankring.vim
-command! CtrlPYankring call ctrlp#init(ctrlp#yankring#id())
-
 " vim:fen:fdl=0:ts=2:sw=2:sts=2
