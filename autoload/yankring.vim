@@ -27,6 +27,12 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 
+" Variables: {{{
+" g:ctrlp_yankring_limit = 100
+" g:ctrlp_yankring_minimum_chars = 2
+" }}}
+
+
 function! s:uniq(list)
   let seen = []
   for i in range(len(a:list))
@@ -38,50 +44,82 @@ function! s:uniq(list)
 endfunction
 
 
-if !exists('g:YANKRING')
-  let s:yankring = []
-else
-  let s:yankring = s:uniq(g:YANKRING)
-endif
+function! s:cachedir()
+  let yankring_cachedir = ctrlp#utils#cachedir() . ctrlp#utils#lash() . 'yankring'
+  return yankring_cachedir
+endfunction
 
 
 function! s:store(list)
-  let g:YANKRING = a:list
+  if isdirectory(ctrlp#utils#cachedir())
+    if !isdirectory(s:cachedir())
+      call mkdir(s:cachedir())
+    endif
+    call writefile(a:list, s:cachedir() . ctrlp#utils#lash() . 'yankring.txt')
+  else
+    let g:YANKRING = a:list
+  endif
+endfunction
+
+
+function! s:load()
+  if isdirectory(s:cachedir())
+    return readfile(s:cachedir() . ctrlp#utils#lash() . 'yankring.txt')
+  endif
+  if exists('g:YANKRING')
+    let s:yankring = s:uniq(g:YANKRING)
+  endif
+endfunction
+let s:yankring = []
+call s:load()
+
+
+function! s:remove_duplicated(list, entry)
+  let dup = index(a:list, a:entry, 0)
+  if dup > -1
+    call remove(a:list, dup)
+  endif
+endfunction
+
+
+function! s:add(list, entry, reversed)
+  if a:reversed
+    call add(a:list, a:entry)
+  else
+    call insert(a:list, a:entry)
+  endif
+endfunction
+
+
+function! s:cut_off(list, limit, revered)
+  let list_len = len(a:list)
+  if a:limit < list_len
+    let a:list =
+          \ a:reversed
+          \ ? a:list[list_len - a:limit : list_len-1]
+          \ : a:list[: a:limit-1]
+  endif
 endfunction
 
 
 function! yankring#collect()
-  let yankring_limit = get(g:, 'yankring_limit', 100)
+  let yankring_limit = get(g:, 'ctrlp_yankring_limit', 100)
   let reverse_order = get(g:, 'ctrlp_match_window_reversed', 0)
-
   let yankstr = getreg('"', 1)
+
   if !empty(s:yankring)
         \ && yankstr == (reverse_order ? s:yankring[-1] : s:yankring[0])
     return
   endif
-  "TODO: recognize getregtype() value
-  if len(yankstr) < 2
+
+  if len(yankstr) < get(g:, 'ctrlp_yankring_minimum_chars', 2)
     return
   endif
-  let dup = index(s:yankring, yankstr, 0)
-  if dup > -1
-    call remove(s:yankring, dup)
-  endif
 
-  if reverse_order
-    call add(s:yankring, yankstr)
-  else
-    call insert(s:yankring, yankstr)
-  endif
-
-  if yankring_limit < len(s:yankring)
-    let s:yankring = reverse_order
-          \ ? s:yankring[len(s:yankring) - yanring_limit : len(s:yankring)-1]
-          \ : s:yankring[: yankring_limit-1]
-  endif
-
+  call s:remove_duplicated(s:yankring, yankstr)
+  call s:add(s:yankring, yankstr, reverse_order)
+  call s:cut_off(s:yankring, yankring_limit, reverse_order)
   call s:store(s:yankring[: 30])
-
 endfunction
 
 

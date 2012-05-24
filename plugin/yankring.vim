@@ -1,5 +1,5 @@
 "=============================================================================
-" FILE: plugin/bundlesync.vim
+" FILE: plugin/ctrlp/yankring.vim
 " AUTHOR: sgur <sgurrr@gmail.com>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
