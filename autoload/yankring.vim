@@ -96,8 +96,8 @@ function! s:cut_off(list, limit, revered)
   if a:limit < list_len
     let a:list =
           \ a:reversed
-          \ ? a:list[list_len - a:limit : list_len-1]
-          \ : a:list[: a:limit-1]
+          \ ? (a:list[list_len - a:limit : list_len-1])
+          \ : (a:list[: a:limit-1])
   endif
 endfunction
 
