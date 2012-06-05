@@ -91,7 +91,7 @@ function! s:add(list, entry, reversed)
 endfunction
 
 
-function! s:cut_off(list, limit, revered)
+function! s:cut_off(list, limit, reversed)
   let list_len = len(a:list)
   if a:limit < list_len
     let a:list =
