@@ -94,10 +94,11 @@ endfunction
 function! s:cut_off(list, limit, reversed)
   let list_len = len(a:list)
   if a:limit < list_len
-    let a:list =
-          \ a:reversed
+    return a:reversed
           \ ? (a:list[list_len - a:limit : list_len-1])
           \ : (a:list[: a:limit-1])
+  else
+    return a:list
   endif
 endfunction
 
@@ -118,8 +119,8 @@ function! yankring#collect()
 
   call s:remove_duplicated(s:yankring, yankstr)
   call s:add(s:yankring, yankstr, reverse_order)
-  call s:cut_off(s:yankring, yankring_limit, reverse_order)
-  call s:store(s:yankring[: 30])
+  let s:yankring = s:cut_off(s:yankring, yankring_limit, reverse_order)
+  call s:store(s:yankring)
 endfunction
 
 
