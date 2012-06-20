@@ -59,7 +59,7 @@ func! ctrlp#yankring#accept(mode, str)
   call ctrlp#exit()
   call setreg('"', a:str)
   if index(['v', 't', 'h'], a:mode) != -1
-    normal! '""P'
+    normal! ""P
   endif
 endfunc
 
