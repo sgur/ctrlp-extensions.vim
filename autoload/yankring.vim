@@ -50,12 +50,17 @@ function! s:cachedir()
 endfunction
 
 
+function! s:cachefile()
+  return s:cachedir() . ctrlp#utils#lash() . 'yankring.txt'
+endfunction
+
+
 function! s:store(list)
   if isdirectory(ctrlp#utils#cachedir())
     if !isdirectory(s:cachedir())
       call mkdir(s:cachedir())
     endif
-    call writefile(a:list, s:cachedir() . ctrlp#utils#lash() . 'yankring.txt')
+    call writefile(a:list, s:cachefile())
   else
     let g:YANKRING = a:list
   endif
@@ -65,9 +70,8 @@ endfunction
 let s:yankring = []
 function! s:load()
   if isdirectory(s:cachedir())
-    let cachefile = s:cachedir() . ctrlp#utils#lash() . 'yankring.txt'
-    if filereadable(cachefile)
-      let s:yankring = readfile(cachefile)
+    if filereadable(s:cachefile())
+      let s:yankring = readfile(s:cachefile())
     endif
   endif
   if exists('g:YANKRING')
