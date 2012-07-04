@@ -65,7 +65,10 @@ endfunction
 let s:yankring = []
 function! s:load()
   if isdirectory(s:cachedir())
-    let s:yankring = readfile(s:cachedir() . ctrlp#utils#lash() . 'yankring.txt')
+    let cachefile = s:cachedir() . ctrlp#utils#lash() . 'yankring.txt'
+    if filereadable(cachefile)
+      let s:yankring = readfile(cachefile)
+    endif
   endif
   if exists('g:YANKRING')
     let s:yankring = s:uniq(g:YANKRING)
