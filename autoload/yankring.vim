@@ -44,8 +44,8 @@ function! s:uniq(list)
 endfunction
 
 
-function! s:is_cache_enabled()
-  return !(exists('g:ctrlp_clear_cache_on_exit') && g:ctrlp_clear_cache_on_exit)
+function! s:is_session_cache_enabled()
+  return exists('g:ctrlp_clear_cache_on_exit') && !g:ctrlp_clear_cache_on_exit
 endfunction
 
 
@@ -61,7 +61,7 @@ endfunction
 
 
 function! s:store(list)
-  if isdirectory(ctrlp#utils#cachedir()) && s:is_cache_enabled()
+  if isdirectory(ctrlp#utils#cachedir()) && s:is_session_cache_enabled()
     if !isdirectory(s:cachedir())
       call mkdir(s:cachedir())
     endif
@@ -74,7 +74,7 @@ endfunction
 
 let s:yankring = []
 function! s:load()
-  if isdirectory(s:cachedir()) && s:is_cache_enabled()
+  if isdirectory(s:cachedir()) && s:is_session_cache_enabled()
     if filereadable(s:cachefile())
       let s:yankring = readfile(s:cachefile())
     endif
