@@ -10,7 +10,11 @@ if ( exists('g:loaded_ctrlp_menu') && g:loaded_ctrlp_menu )
 endif
 let g:loaded_ctrlp_menu = 1
 
-let s:builtins = ['files', 'buffers', 'mru files']
+let s:builtins = [
+      \ {'sname' : 'fil', 'lname' : 'files'},
+      \ {'sname' : 'buf', 'lname' : 'buffers'},
+      \ {'sname' : 'mru', 'lname' : 'mru files'},
+      \ ]
 
 " The main variable for this extension.
 "
@@ -25,12 +29,13 @@ let s:builtins = ['files', 'buffers', 'mru files']
 "                      |     `- match full line like file/dir path
 "                      `- match full line
 let s:ctrlp_var = {
-      \ 'init': 'ctrlp#menu#init()',
+      \ 'init'  : 'ctrlp#menu#init()',
       \ 'accept': 'ctrlp#menu#accept',
-      \ 'lname': 'ctrlp plugin menu',
-      \ 'sname': 'menu',
-      \ 'type': 'line',
-      \ 'sort' : 0
+      \ 'lname' : 'plugin menu',
+      \ 'sname' : 'menu',
+      \ 'type'  : 'line',
+      \ 'sort'  : 0,
+      \ 'nolim' : 1,
       \ }
 
 
@@ -46,7 +51,8 @@ endif
 "
 " Return: command
 function! ctrlp#menu#init()
-  return s:builtins + map(copy(g:ctrlp_ext_vars), 'v:val.lname')
+  return map(copy(s:builtins) + copy(g:ctrlp_ext_vars),
+        \ 'printf("%s\t: %s", v:val.sname, v:val.lname)')
 endfunction
 
 

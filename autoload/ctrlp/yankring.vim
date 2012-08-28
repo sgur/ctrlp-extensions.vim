@@ -24,12 +24,13 @@ let g:loaded_ctrlp_yankring = 1
 "                      |     `- match full line like file/dir path
 "                      `- match full line
 let s:yankring_var = {
-      \ 'init': 'ctrlp#yankring#init()',
+      \ 'init'  : 'ctrlp#yankring#init()',
       \ 'accept': 'ctrlp#yankring#accept',
-      \ 'lname': 'yankring',
-      \ 'sname': 'yank',
-      \ 'type': 'line',
-      \ 'sort' : 0
+      \ 'lname' : 'yankring',
+      \ 'sname' : 'yank',
+      \ 'type'  : 'line',
+      \ 'sort'  : 0,
+      \ 'nolim' : 1,
       \ }
 
 
