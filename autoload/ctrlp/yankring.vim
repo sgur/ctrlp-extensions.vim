@@ -46,7 +46,7 @@ endif
 "
 " Return: command
 function! ctrlp#yankring#init()
-  return yankring#list()
+  return map(yankring#list(), 'substitute(v:val, "^", len(split(v:val, "\n")).": ", "")')
 endfunction
 
 
@@ -58,7 +58,7 @@ endfunction
 "  a:str    the selected string
 func! ctrlp#yankring#accept(mode, str)
   call ctrlp#exit()
-  call setreg('"', a:str)
+  call setreg('"', a:str[stridx(a:str, ': ') + strlen(': ') :])
   if index(['v', 't', 'h'], a:mode) != -1
     normal! ""P
   endif
