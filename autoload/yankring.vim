@@ -67,11 +67,15 @@ endfunction
 
 
 function! s:load()
+  if exists('s:yankring_cache_loaded')
+    return
+  endif
   if isdirectory(s:cachedir()) && s:is_session_cache_enabled()
     if filereadable(s:cachefile())
       let s:yankring = s:uniq(s:yankring + readfile(s:cachefile()))
     endif
   endif
+  let s:yankring_cache_loaded = 1
 endfunction
 
 
@@ -110,9 +114,7 @@ function! yankring#store()
     if !isdirectory(s:cachedir())
       call mkdir(s:cachedir())
     endif
-    if !exists('g:loaded_ctrlp_yankring')
-      call s:load()
-    endif
+    call s:load()
     call writefile(s:yankring, s:cachefile())
   endif
 endfunction
