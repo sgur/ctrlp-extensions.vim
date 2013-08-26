@@ -1,5 +1,5 @@
 "=============================================================================
-" FILE: autoload/bundlesync.vim
+" FILE: autoload/yankring.vim
 " AUTHOR: sgur <sgurrr@gmail.com>
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -92,6 +92,7 @@ function! s:cut_off(list, limit)
 endfunction
 
 
+
 function! yankring#collect()
   let yankstr = getreg('"', 1)
 
@@ -105,7 +106,6 @@ function! yankring#collect()
 
   call s:remove_duplicated(s:yankring, yankstr)
   call insert(s:yankring, yankstr)
-  " call s:store(s:yankring)
 endfunction
 
 
