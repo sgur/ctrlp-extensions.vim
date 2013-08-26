@@ -27,10 +27,16 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 
+
 " Variables: {{{
-" g:ctrlp_yankring_limit = 100
-" g:ctrlp_yankring_minimum_chars = 2
+let g:ctrlp_yankring_limit = get(g:, 'ctrlp_yankring_limit', 100)
+let g:ctrlp_yankring_minimum_chars = get(g:, 'ctrlp_yankring_minimum_chars', 2)
 " }}}
+
+
+
+let s:yankring = []
+
 
 
 function! s:uniq(list)
@@ -60,30 +66,13 @@ function! s:cachefile()
 endfunction
 
 
-function! s:store(list)
-  if isdirectory(ctrlp#utils#cachedir()) && s:is_session_cache_enabled()
-    if !isdirectory(s:cachedir())
-      call mkdir(s:cachedir())
-    endif
-    call writefile(a:list, s:cachefile())
-  else
-    let g:YANKRING = a:list
-  endif
-endfunction
-
-
-let s:yankring = []
 function! s:load()
   if isdirectory(s:cachedir()) && s:is_session_cache_enabled()
     if filereadable(s:cachefile())
-      let s:yankring = readfile(s:cachefile())
+      let s:yankring = s:uniq(s:yankring + readfile(s:cachefile()))
     endif
   endif
-  if exists('g:YANKRING')
-    let s:yankring = s:uniq(g:YANKRING)
-  endif
 endfunction
-call s:load()
 
 
 function! s:remove_duplicated(list, entry)
@@ -94,50 +83,49 @@ function! s:remove_duplicated(list, entry)
 endfunction
 
 
-function! s:add(list, entry, reversed)
-  if a:reversed
-    call add(a:list, a:entry)
-  else
-    call insert(a:list, a:entry)
-  endif
-endfunction
-
-
-function! s:cut_off(list, limit, reversed)
-  let list_len = len(a:list)
-  if a:limit < list_len
-    return a:reversed
-          \ ? (a:list[list_len - a:limit : list_len-1])
-          \ : (a:list[: a:limit-1])
-  else
-    return a:list
-  endif
+function! s:cut_off(list, limit)
+  return a:limit < len(a:list) ? a:list[: a:limit-1] : a:list
 endfunction
 
 
 function! yankring#collect()
-  let yankring_limit = get(g:, 'ctrlp_yankring_limit', 100)
-  let reverse_order = get(g:, 'ctrlp_match_window_reversed', 0)
   let yankstr = getreg('"', 1)
 
-  if !empty(s:yankring)
-        \ && yankstr == (reverse_order ? s:yankring[-1] : s:yankring[0])
+  if !empty(s:yankring) && yankstr == s:yankring[0]
     return
   endif
 
-  if len(yankstr) < get(g:, 'ctrlp_yankring_minimum_chars', 2)
+  if len(yankstr) < g:ctrlp_yankring_minimum_chars
     return
   endif
 
   call s:remove_duplicated(s:yankring, yankstr)
-  call s:add(s:yankring, yankstr, reverse_order)
-  let s:yankring = s:cut_off(s:yankring, yankring_limit, reverse_order)
-  call s:store(s:yankring)
+  call insert(s:yankring, yankstr)
+  " call s:store(s:yankring)
+endfunction
+
+
+function! yankring#store()
+  if isdirectory(ctrlp#utils#cachedir()) && s:is_session_cache_enabled()
+    if !isdirectory(s:cachedir())
+      call mkdir(s:cachedir())
+    endif
+    if !exists('g:loaded_ctrlp_yankring')
+      call s:load()
+    endif
+    call writefile(s:yankring, s:cachefile())
+  endif
 endfunction
 
 
 function! yankring#list()
-  return copy(s:yankring)
+  call s:load()
+  let s:yankring = s:cut_off(s:yankring, g:ctrlp_yankring_limit)
+  let _ = copy(s:yankring)
+  if exists('g:ctrlp_match_window') && stridx(g:ctrlp_match_window, 'order:tbb') > -1
+    call reverse(_)
+  endif
+  return _
 endfunction
 
 

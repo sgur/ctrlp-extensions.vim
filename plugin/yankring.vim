@@ -37,6 +37,7 @@ if !get(g:, 'yankring_disable', 0)
   augroup yankring
     autocmd!
     autocmd CursorMoved * call yankring#collect()
+    autocmd VimLeavePre * call yankring#store()
   augroup END
 endif
 
