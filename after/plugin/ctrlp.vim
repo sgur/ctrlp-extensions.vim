@@ -1,4 +1,4 @@
-if !exists('g:loaded_ctrlp') || !g:loaded_ctrlp
+if !exists('g:loaded_ctrlp') || g:loaded_ctrlp
   finish
 endif
 
