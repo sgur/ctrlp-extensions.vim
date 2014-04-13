@@ -60,6 +60,7 @@ endfunction
 func! ctrlp#cmdline#accept(mode, str)
   call ctrlp#exit()
   silent execute ':'.a:str
+  call histadd('cmd', a:str)
 endfunc
 
 
