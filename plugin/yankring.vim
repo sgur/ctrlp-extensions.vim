@@ -23,10 +23,10 @@
 " }}}
 "=============================================================================
 
-if exists('g:loaded_yankring')
+if exists('g:loaded_ctrlp_ext_yankring')
   finish
 endif
-let g:loaded_yankring = 1
+let g:loaded_ctrlp_ext_yankring = 1
 
 
 let s:save_cpo = &cpo
