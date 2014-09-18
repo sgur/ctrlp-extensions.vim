@@ -5,7 +5,7 @@
 
 " Change the name of the g:loaded_ variable to make it unique
 if ( exists('g:loaded_ctrlp_yankring') && g:loaded_ctrlp_yankring )
-      \ || v:version < 700 || &cp
+      \ || v:version < 700 || &cp || !get(g:, 'ctrlp_yankring_disable', 0)
   finish
 endif
 let g:loaded_ctrlp_yankring = 1

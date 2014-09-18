@@ -33,8 +33,8 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 
-if !get(g:, 'yankring_disable', 0)
-  augroup yankring
+if !get(g:, 'ctrlp_yankring_disable', 0)
+  augroup ctrlp_ext_yankring
     autocmd!
     autocmd CursorMoved * call yankring#collect()
     autocmd VimLeavePre * call yankring#store()
