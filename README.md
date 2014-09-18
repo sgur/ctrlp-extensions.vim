@@ -7,6 +7,13 @@ Extensions for ctrlp.vim
 - yankring : yank history
 - menu : extension selector menu
 
+Demo
+----
+
+### menu
+
+![](https://dl-web.dropbox.com/get/Screenshots/github.com/ctrlp-extensions.vim/CtrlPMenu.gif?_subject_uid=175488&w=AACWssfSHiOP_umgpsUBs7DbqxeTEcE2yfwnvGSxbUyijA)
+
 Requirement
 -----------
 
