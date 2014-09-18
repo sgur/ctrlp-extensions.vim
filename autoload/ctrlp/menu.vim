@@ -64,21 +64,18 @@ endfunction
 "  a:str    the selected string
 func! ctrlp#menu#accept(mode, str)
   call ctrlp#exit()
+  let sname = split(a:str, "	")[0]
   " builtins
-  let n = index(s:builtins, a:str)
+  let n = index(map(copy(s:builtins), 'v:val.sname'), sname)
   if n > -1
     call ctrlp#init(n)
     return
   endif
   " plugins
-  let n = 0
-  for i in range(len(g:ctrlp_ext_vars))
-    if g:ctrlp_ext_vars[i].lname == a:str
-      let n = i
-      break
-    endif
-  endfor
-  call ctrlp#init(call('ctrlp#'.g:ctrlp_extensions[n].'#id',[]))
+  let target = filter(copy(g:ctrlp_ext_vars), 'v:val.sname ==# sname')[0]
+  if !empty(target)
+    call ctrlp#init(call(substitute(target.accept, '#accept', '#id', ''),[]))
+  endif
 endfunc
 
 
