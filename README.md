@@ -12,7 +12,7 @@ Demo
 
 ### menu
 
-![](https://dl-web.dropbox.com/get/Screenshots/github.com/ctrlp-extensions.vim/CtrlPMenu.gif?_subject_uid=175488&w=AACWssfSHiOP_umgpsUBs7DbqxeTEcE2yfwnvGSxbUyijA)
+![](https://dl.dropboxusercontent.com/u/175488/Screenshots/github.com/ctrlp-extensions.vim/CtrlPMenu.gif)
 
 Requirement
 -----------
