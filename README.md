@@ -64,4 +64,4 @@ MIT License
 Author
 ------
 
-sgur <sgurrr+vim@gmail.com>
+sgur `<sgurrr+vim@gmail.com>`
