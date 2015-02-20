@@ -94,7 +94,7 @@ endfunction
 
 
 function! yankring#collect()
-  let yankstr = getreg('"', 1)
+  let yankstr = getreg('"')
 
   if !empty(s:yankring) && yankstr == s:yankring[0]
     return
