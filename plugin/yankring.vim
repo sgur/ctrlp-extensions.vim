@@ -36,7 +36,7 @@ set cpo&vim
 if !get(g:, 'ctrlp_yankring_disable', 0)
   augroup ctrlp_ext_yankring
     autocmd!
-    if get(g:, 'ctrlp_yankring_use_textchanged', 0) && exists('##TextChanged')
+    if get(g:, 'ctrlp_yankring_use_textchanged', 1) && exists('##TextChanged')
       autocmd TextChanged * call yankring#collect()
     else
       autocmd CursorMoved * call yankring#collect()

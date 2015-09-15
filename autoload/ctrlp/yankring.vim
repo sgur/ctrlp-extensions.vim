@@ -61,7 +61,7 @@ func! ctrlp#yankring#accept(mode, str)
   call setreg('"', a:str[stridx(a:str, ': ') + strlen(': ') :])
   if index(['v', 't', 'h'], a:mode) == -1
     normal! ""p
-    if get(g:, 'ctrlp_yankring_highlight', 0)
+    if get(g:, 'ctrlp_yankring_highlight', 1)
       call yankring#hook#highlight_last_yank()
     endif
   endif
