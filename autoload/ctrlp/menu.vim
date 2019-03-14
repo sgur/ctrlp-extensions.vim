@@ -52,7 +52,7 @@ endif
 " Return: command
 function! ctrlp#menu#init()
   return map(copy(s:builtins) + copy(g:ctrlp_ext_vars),
-        \ 'printf("%15\t: %s", v:val.sname, v:val.lname)')
+        \ 'printf("%15s\t: %s", v:val.sname, v:val.lname)')
 endfunction
 
 
