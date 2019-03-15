@@ -51,8 +51,11 @@ endif
 "
 " Return: command
 function! ctrlp#menu#init()
-  return map(copy(s:builtins) + copy(g:ctrlp_ext_vars),
-        \ 'printf("%s\t: %s", v:val.sname, v:val.lname)')
+  let entries = copy(s:builtins) + copy(g:ctrlp_ext_vars)
+
+  call filter(entries, 'v:val.sname !=# "menu"')
+
+  return map(entries, 'printf("%15s\t: %s", v:val.sname, v:val.lname)')
 endfunction
 
 
