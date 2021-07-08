@@ -52,7 +52,7 @@ endif
 " Return: command
 function! ctrlp#menu#init()
   return map(copy(s:builtins) + copy(g:ctrlp_ext_vars),
-        \ 'printf("%s\t: %s", v:val.sname, v:val.lname)')
+        \ 'printf("%15s\t: %s", v:val.sname, v:val.lname)')
 endfunction
 
 
@@ -65,6 +65,10 @@ endfunction
 func! ctrlp#menu#accept(mode, str)
   call ctrlp#exit()
   let sname = split(a:str, "	")[0]
+  
+  " strip whitespace
+  let sname = substitute(sname, '^\s*\(.\{-}\)\s*$', '\1', '')
+
   " builtins
   let n = index(map(copy(s:builtins), 'v:val.sname'), sname)
   if n > -1
