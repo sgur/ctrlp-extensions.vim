@@ -45,7 +45,7 @@ endif
 " Return: command
 function! ctrlp#cmdline#init()
   let type = 'cmd'
-  let entries = map(range(histnr(type), 0, -1), 'histget(type, v:val)')
+  let entries = map(range(histnr(type), 0, -1), 'strtrans(histget(type, v:val))')
   let list = filter(entries, '!empty(v:val)')
   return list
 endfunction
